@@ -13,6 +13,7 @@ primera = (call1, call2) => {
   setTimeout(() => {
     console.log('1');
     call1()
+    
     call2()
   }, 1000);
 }
