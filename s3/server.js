@@ -13,7 +13,6 @@ primera = (call1, call2) => {
   setTimeout(() => {
     console.log('1');
     call1()
-    
     call2()
   }, 1000);
 }
@@ -116,3 +115,132 @@ readFile = path => {
 // Promise.all([prom1, prom2, prom3])
 //   .then(data => console.log('Data:', data))
 //   .catch(err => console.log('Error:', err))
+
+// Reto 2
+// let files = Promise.all([
+//   readFile("./archivo1.txt"), 
+//   readFile("./archivo2.txt"), 
+//   readFile("./archivo3.txt")
+// ])
+
+// files
+//   .then(collection => {
+//     console.log("Promesas completadas!!!");
+
+//     collection.forEach((dato, i) => console.log("Archivo:", (i + 1), ":", dato))
+//   })
+//   .catch(err => console.log("Error:", err))
+
+
+// Async / Await
+obtenerPokemon = pokemon => {
+  return new Promise((resolve, reject) => {
+    https.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`, res => {
+    let data = ''
+
+    res.setEncoding('utf-8')
+    res.on('data', chunk => {
+      data += chunk
+    })
+
+    res.on('end', () => {
+      try {
+        let body = JSON.parse(JSON.stringify(data))
+        resolve(body)
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }).on('error', err => reject(err))
+  })
+}
+
+const pokemones = [
+  "bulbasur",
+  "pikachu"
+]
+
+async function capturar(lista) {
+  try {
+    let resultados = await Promise.all(
+      lista.map(async (pokemon) => {
+        let res = await obtenerPokemon(pokemon)
+        console.log(`Pokemon atrapado ${pokemon}`)
+        return res
+      })
+    )
+    return resultados
+  } catch (error) {
+    console.log('Error', error);
+  }
+}
+
+// capturar(pokemones)
+//   .then(collection => {
+//     console.log("Promesas completadas!!!");
+//     collection.forEach((dato, i) => console.log("Pokemon:", (i + 1)))
+//   })
+
+
+// Reto 3
+obtenerPersonaje = personaje => {
+  return new Promise((resolve, reject) => {
+    https.get(`https://rickandmortyapi.com/api/character/?name=${personaje}`, res => {
+    let data = ''
+
+    res.setEncoding('utf-8')
+    res.on('data', chunk => {
+      data += chunk
+    })
+
+    res.on('end', () => {
+      try {
+        let body = JSON.parse(JSON.stringify(data))
+        resolve(body)
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }).on('error', err => reject(err))
+  })
+}
+
+const personajes = [
+  "Rick",
+  "Morty"
+]
+
+async function capturarPersonaje(lista) {
+  try {
+    let resultados = await Promise.all(
+      lista.map(async (personaje) => {
+        let res = await obtenerPersonaje(personaje)
+        console.log(`Personaje consultado ${personaje}`)
+        return res
+      })
+    )
+    return resultados
+  } catch (error) {
+    console.log('Error', error);
+  }
+}
+
+// capturarPersonaje(personajes)
+//   .then(collection => {
+//     console.log("Promesas completadas!!!");
+//     collection.forEach((dato, i) => console.log("Personajes:", (i + 1)))
+//   })
+
+
+// Map en arregloss
+// var alumnos = [{nombre: "Andres", avg: 9}, {nombre: "Juan", avg: 10}];
+// console.log(alumnos);
+// alumnos.map(alumno => {
+//    if(alumno.avg < 10){
+//      alumno.avg += 1
+//    }
+
+//    return alumno
+// });
+
+// console.log(alumnos);
