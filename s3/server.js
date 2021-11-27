@@ -5,7 +5,7 @@ saludar = nombre => console.log('Hola', nombre)
 // Función 2
 entrada = (nombre, callback) => callback(nombre)
 // Ejecución
-// entrada('Andres', saludar)
+// entrada('Leslie', saludar)
 
 //////////////////////////////////////////////////
 
@@ -165,7 +165,7 @@ async function capturar(lista) {
     let resultados = await Promise.all(
       lista.map(async (pokemon) => {
         let res = await obtenerPokemon(pokemon)
-        console.log(`Pokemon atrapado ${pokemon}`)
+        console.log(`Pokemon sin salida ${pokemon}`)
         return res
       })
     )
